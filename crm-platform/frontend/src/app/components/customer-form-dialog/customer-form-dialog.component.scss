@@ -1,0 +1,18 @@
+.customer-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-dialog-content {
+  padding: 16px 24px;
+}
+
+.mt2 {
+  margin-top: 20px;
+}

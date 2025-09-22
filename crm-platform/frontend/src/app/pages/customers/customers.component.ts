@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { CustomerService, Customer } from '../../services/customer.service';
@@ -34,7 +35,8 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   animations: [],
   template: `
@@ -111,12 +113,19 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
                 <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef>Actions</th>
                   <td mat-cell *matCellDef="let customer">
-                    <button mat-icon-button color="primary" (click)="editCustomer(customer)">
-                      <mat-icon>edit</mat-icon>
+                    <button mat-icon-button [matMenuTriggerFor]="activeActionsMenu">
+                      <mat-icon>more_vert</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="deleteCustomer(customer.id)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
+                    <mat-menu #activeActionsMenu="matMenu">
+                      <button mat-menu-item (click)="editCustomer(customer)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit Customer</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteCustomer(customer.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete Customer</span>
+                      </button>
+                    </mat-menu>
                   </td>
                 </ng-container>
 
@@ -174,12 +183,19 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
                 <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef>Actions</th>
                   <td mat-cell *matCellDef="let customer">
-                    <button mat-icon-button color="primary" (click)="restoreCustomer(customer.id)">
-                      <mat-icon>restore</mat-icon>
+                    <button mat-icon-button [matMenuTriggerFor]="deletedActionsMenu">
+                      <mat-icon>more_vert</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="permanentlyDeleteCustomer(customer.id)">
-                      <mat-icon>delete_forever</mat-icon>
-                    </button>
+                    <mat-menu #deletedActionsMenu="matMenu">
+                      <button mat-menu-item (click)="restoreCustomer(customer.id)">
+                        <mat-icon>restore</mat-icon>
+                        <span>Restore Customer</span>
+                      </button>
+                      <button mat-menu-item (click)="permanentlyDeleteCustomer(customer.id)">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Delete Permanently</span>
+                      </button>
+                    </mat-menu>
                   </td>
                 </ng-container>
 
