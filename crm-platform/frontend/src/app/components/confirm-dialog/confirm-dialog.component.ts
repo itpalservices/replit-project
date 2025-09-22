@@ -1,7 +1,11 @@
-import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
 
 export interface ConfirmDialogData {
   title: string;
@@ -11,39 +15,16 @@ export interface ConfirmDialogData {
 }
 
 @Component({
-  selector: 'app-confirm-dialog',
+  selector: "app-confirm-dialog",
   standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule
-  ],
-  template: `
-    <h2 mat-dialog-title>{{data.title}}</h2>
-    
-    <mat-dialog-content>
-      <p>{{data.message}}</p>
-    </mat-dialog-content>
-
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">{{data.cancelText}}</button>
-      <button mat-raised-button color="warn" (click)="onConfirm()">{{data.confirmText}}</button>
-    </mat-dialog-actions>
-  `,
-  styles: [`
-    mat-dialog-content {
-      padding: 16px 24px;
-    }
-    
-    p {
-      margin: 0;
-    }
-  `]
+  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  templateUrl: "./confirm-dialog.component.html",
+  styleUrls: ["./confirm-dialog.component.scss"],
 })
 export class ConfirmDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData
+    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData,
   ) {}
 
   onConfirm() {

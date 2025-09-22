@@ -44,7 +44,7 @@ export class CustomerFormDialogComponent implements OnInit {
     this.customerForm = this.formBuilder.group({
       name: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      phone: [""],
+      phone: ["", Validators.pattern("^[0-9]")],
       company: [""],
     });
   }
