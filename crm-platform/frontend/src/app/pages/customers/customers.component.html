@@ -1,0 +1,137 @@
+
+<div class="customers-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Customer Management</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Active Customers">
+          <div class="tab-content">
+            <div class="table-header">
+              <mat-form-field appearance="outline">
+                <mat-label>Search customers</mat-label>
+                <input matInput (keyup)="applyFilter($event, 'active')" placeholder="Search...">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+              <button mat-raised-button color="primary" (click)="openCustomerDialog()">
+                <mat-icon>add</mat-icon>
+                Add Customer
+              </button>
+            </div>
+
+            <div class="table-container">
+              <table mat-table [dataSource]="activeDataSource" matSort #activeSort="matSort">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.email}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.phone}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="company">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.company}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="createdAt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.createdAt | date:'short'}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Actions</th>
+                  <td mat-cell *matCellDef="let customer">
+                    <button mat-icon-button color="primary" (click)="editCustomer(customer)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteCustomer(customer.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator #activePaginator [pageSizeOptions]="[5, 10, 20]"
+                            showFirstLastButtons
+                            aria-label="Select page of customers">
+              </mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Deleted Customers">
+          <div class="tab-content">
+            <div class="table-header">
+              <mat-form-field appearance="outline">
+                <mat-label>Search deleted customers</mat-label>
+                <input matInput (keyup)="applyFilter($event, 'deleted')" placeholder="Search...">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="table-container">
+              <table mat-table [dataSource]="deletedDataSource" matSort #deletedSort="matSort">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.email}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.phone}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="company">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.company}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="deletedAt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Deleted</th>
+                  <td mat-cell *matCellDef="let customer">{{customer.deletedAt | date:'short'}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Actions</th>
+                  <td mat-cell *matCellDef="let customer">
+                    <button mat-icon-button color="primary" (click)="restoreCustomer(customer.id)">
+                      <mat-icon>restore</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="permanentlyDeleteCustomer(customer.id)">
+                      <mat-icon>delete_forever</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="deletedDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: deletedDisplayedColumns;"></tr>
+              </table>
+
+              <mat-paginator #deletedPaginator [pageSizeOptions]="[5, 10, 20]"
+                            showFirstLastButtons
+                            aria-label="Select page of deleted customers">
+              </mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
