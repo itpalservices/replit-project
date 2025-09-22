@@ -58,3 +58,8 @@ externalPort = 80
 [[ports]]
 localPort = 46649
 externalPort = 3001
+
+[deployment]
+deploymentTarget = "vm"
+run = ["bash", "-c", "cd crm-platform/backend && npm start & cd crm-platform/frontend && npx serve -s dist/crm-frontend -l 5000"]
+build = ["bash", "-c", "cd crm-platform/frontend && npm run build"]
