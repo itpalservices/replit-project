@@ -2,6 +2,7 @@ modules = ["nodejs-20", "web"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["php82", "php82Extensions.pdo_pgsql"]
 
 [agent]
 expertMode = true
@@ -56,8 +57,8 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 46649
-externalPort = 3001
+localPort = 8080
+externalPort = 8080
 
 [deployment]
 deploymentTarget = "vm"

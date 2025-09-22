@@ -36,14 +36,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
     MatDialogModule,
     MatSnackBarModule
   ],
-  animations: [
-    trigger('fadeInOut', [
-      transition('* => *', [
-        style({ opacity: 0 }),
-        animate('300ms ease-in-out', style({ opacity: 1 }))
-      ])
-    ])
-  ],
+  animations: [],
   template: `
     <div class="customers-container">
       <mat-card>
@@ -73,9 +66,9 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 
           <!-- Active Customers View -->
           <div 
-            *ngIf="currentView === 'active'" 
-            [@fadeInOut]="currentView"
-            class="tab-content">
+            [class.active]="currentView === 'active'"
+            [class.hidden]="currentView !== 'active'"
+            class="tab-content view-active">
             <div class="table-header">
               <mat-form-field appearance="outline">
                 <mat-label>Search customers</mat-label>
@@ -140,9 +133,9 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 
           <!-- Deleted Customers View -->
           <div 
-            *ngIf="currentView === 'deleted'" 
-            [@fadeInOut]="currentView"
-            class="tab-content">
+            [class.active]="currentView === 'deleted'"
+            [class.hidden]="currentView !== 'deleted'"
+            class="tab-content view-deleted">
             <div class="table-header">
               <mat-form-field appearance="outline">
                 <mat-label>Search deleted customers</mat-label>
@@ -224,6 +217,21 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 
     .tab-content {
       padding: 16px 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .tab-content.hidden {
+      opacity: 0;
+      position: absolute;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .tab-content.active {
+      opacity: 1;
+      position: relative;
+      pointer-events: auto;
+      visibility: visible;
     }
 
     .table-header {

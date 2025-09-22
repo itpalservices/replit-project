@@ -1,23 +1,26 @@
 const { Pool } = require('pg');
 
+// Check for DATABASE_URL but don't crash immediately
 if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+  console.error("Warning: DATABASE_URL not set. Database operations will fail.");
 }
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 // Initialize database tables
 async function initDatabase() {
   const client = await pool.connect();
   try {
+    // Enable UUID extension for PostgreSQL
+    await client.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+    
     // Create customers table if it doesn't exist
     await client.query(`
       CREATE TABLE IF NOT EXISTS customers (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         phone VARCHAR(50),
